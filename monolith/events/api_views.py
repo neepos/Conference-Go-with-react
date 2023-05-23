@@ -9,7 +9,10 @@ from .models import Conference, Location, State
 
 class LocationListEncoder(ModelEncoder):
     model = Location
-    properties = ["name"]
+    properties = [
+        "name",
+        "picture_url",
+    ]
 
 
 class LocationDetailEncoder(ModelEncoder):
@@ -173,6 +176,7 @@ def api_list_locations(request):
             )
 
         photo = get_photo(content["city"], content["state"].abbreviation)
+        print("Here is the photo", photo)
         content.update(photo)
         location = Location.objects.create(**content)
         return JsonResponse(
