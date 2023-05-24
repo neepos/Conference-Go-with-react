@@ -12,7 +12,8 @@ class LocationListEncoder(ModelEncoder):
     properties = [
         "name",
         "picture_url",
-    ]
+        "id",
+        ]
 
 
 class LocationDetailEncoder(ModelEncoder):
@@ -118,7 +119,6 @@ def api_list_locations(request):
             )
 
         photo = get_photo(content["city"], content["state"].abbreviation)
-        print("Here is the photo", photo)
         content.update(photo)
         location = Location.objects.create(**content)
         return JsonResponse(
@@ -130,7 +130,7 @@ def api_list_locations(request):
 
 @require_http_methods(["DELETE", "GET", "PUT"])
 def api_show_location(request, pk):
-
+ 
     if request.method == "GET":
         location = Location.objects.get(id=pk)
         return JsonResponse(
@@ -160,23 +160,20 @@ def api_show_location(request, pk):
             safe=False,
         )
 
-
 @require_http_methods(["GET"])
 def api_list_states(request):
-    # Get the states from the database ordered by name
-    states = State.objects.order_by('name')
-    # Create an empty list named state_list
-    state_list = []
-    # For each state in the states from the database
-    for state in states:
-        # Create a dictionary that contains the name and
-        # abbreviation for each state
-        state_dict = {
-            "name": state.name,
-            "abbreviation": state.abbreviation,
-        }
-        # Append the dictionary to the list
-        state_list.append(state_dict)
-    
-    return JsonResponse({"states": state_list})
+    if request.method == "GET":
+        states = State.objects.all().order_by('name')
+        state_list = []
+
+        for state in states:
+            d = {
+                "name": state.name,
+                "abbreviation": state.abbreviation,
+                }
+            state_list.append(d)
+
+        return JsonResponse({"states": state_list})
+
+
 
