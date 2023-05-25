@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                         'Content-Type': 'application/json',
                     },
                 };
-                const response = await fetch(locationUrl, fetchConfig);
+            const response = await fetch(locationUrl, fetchConfig);
                 if (response.ok) {
                     formTag.reset();
                     const newLocation = await response.json();
