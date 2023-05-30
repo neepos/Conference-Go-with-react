@@ -1,11 +1,12 @@
 import Nav from './Nav'
+import React from 'react'
 
 function App(props) {
   if (props.attendees === undefined) {
     return null;
   }
   return (
-    <Fragment>
+    <React.Fragment>
       <Nav />
       <div className="container">
         <table className="table table-striped">
@@ -27,6 +28,8 @@ function App(props) {
           </tbody>
         </table>
       </div>
-    </Fragment>  
+    </React.Fragment>  
   );
 }
+
+export default App;
